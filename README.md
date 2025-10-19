@@ -2,6 +2,15 @@
 
 Modern Node.js + PostgreSQL web app for Login, Registration, and Company Info. The backend is an Express API and the frontend is static HTML/CSS/JS served from `public/`.
 
+Login (เข้าสู่ระบบ)
+![alt text](image.png)
+
+Create account (สร้างบัญชี)
+![alt text](image-1.png)
+
+Account detail (ข้อมูลบริษัท)
+![alt text](image-2.png)
+
 ## Tech Stack
 
 - Node.js 18+, Express, `pg`, `bcrypt`, `dotenv`
@@ -72,18 +81,6 @@ CREATE DATABASE employee_db;
 npm run dev
 ```
 Open `http://localhost:3000/` (redirects to Login).
-
-
-
-Login (เข้าสู่ระบบ)
-![alt text](image.png)
-
-Create account (สร้างบัญชี)
-![alt text](image-1.png)
-
-Account detail (ข้อมูลบริษัท)
-![alt text](image-2.png)
-
 
 
 Direct URLs:
