@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>เข้าสู่ระบบ</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #1f53d6;
+        --primary-dark: #1945b7;
+        --text: #1f2937;
+        --muted: #64748b;
+        --border: #d3d9e5;
+        --background: #f6f8fc;
+        --success: #16a34a;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Inter", "Noto Sans Thai", sans-serif;
+        background: var(--background);
+        color: var(--text);
+      }
+
+      .page {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        padding: 56px 16px;
+      }
+
+      .card {
+        width: 100%;
+        max-width: 520px;
+        background: #ffffff;
+        border-radius: 14px;
+        border: 1px solid #dbe2ef;
+        box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
+        padding: 42px 48px 46px;
+      }
+
+      header {
+        margin-bottom: 26px;
+      }
+
+      header h1 {
+        margin: 0;
+        font-size: 2.15rem;
+        font-weight: 700;
+        color: var(--text);
+        letter-spacing: 0.3px;
+      }
+
+      header p {
+        margin: 12px 0 18px;
+        font-size: 1rem;
+        color: var(--muted);
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        background: rgba(22, 163, 74, 0.16);
+        border-radius: 999px;
+        color: var(--success);
+        font-weight: 600;
+        font-size: 0.95rem;
+      }
+
+      .badge svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      .divider {
+        margin: 26px 0 24px;
+        border: none;
+        border-top: 1px solid rgba(209, 213, 219, 0.95);
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      label {
+        font-weight: 600;
+        font-size: 0.95rem;
+      }
+
+      .required {
+        color: #dc2626;
+        margin-left: 4px;
+      }
+
+      input[type="text"],
+      input[type="password"] {
+        width: 100%;
+        padding: 13px 16px;
+        border-radius: 8px;
+        border: 1px solid #ced4e2;
+        background: #ffffff;
+        font-size: 1rem;
+        transition: border-color 0.18s ease, box-shadow 0.18s ease;
+      }
+
+      input:focus {
+        outline: none;
+        border-color: #799afe;
+        box-shadow: 0 0 0 3px rgba(31, 83, 214, 0.14);
+      }
+
+      .field.invalid input {
+        border-color: #dc2626;
+        background: #fff5f5;
+      }
+
+      .error-message {
+        min-height: 18px;
+        font-size: 0.85rem;
+        color: #dc2626;
+        margin: 0;
+      }
+
+      .actions-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.95rem;
+      }
+
+      .checkbox-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 500;
+        cursor: pointer;
+      }
+
+      .checkbox-label input {
+        width: 18px;
+        height: 18px;
+        border-radius: 4px;
+        border: 1.8px solid rgba(100, 116, 139, 0.7);
+        appearance: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.15s, border-color 0.15s;
+      }
+
+      .checkbox-label input:checked {
+        background: var(--primary);
+        border-color: var(--primary);
+      }
+
+      .checkbox-label input:checked::after {
+        content: "✓";
+        color: #ffffff;
+        font-size: 0.8rem;
+      }
+
+      .forgot-link {
+        font-weight: 600;
+        color: var(--text);
+        text-decoration: underline;
+        cursor: pointer;
+      }
+
+      .forgot-link:hover {
+        color: #000000;
+      }
+
+      .primary-button {
+        width: 100%;
+        padding: 14px;
+        border: none;
+        border-radius: 10px;
+        background: var(--primary);
+        color: #ffffff;
+        font-size: 1.02rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s ease, transform 0.2s ease;
+      }
+
+      .primary-button:hover {
+        background: var(--primary-dark);
+        transform: translateY(-1px);
+      }
+
+      .primary-button:disabled {
+        cursor: not-allowed;
+        background: rgba(31, 83, 214, 0.4);
+      }
+
+      .toast {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #0f172a;
+        color: #ffffff;
+        padding: 14px 20px;
+        border-radius: 10px;
+        font-weight: 600;
+        box-shadow: 0 18px 35px rgba(15, 23, 42, 0.2);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-12px);
+        transition: opacity 0.25s ease, transform 0.25s ease;
+      }
+
+      .toast.visible {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+
+      .switch-link {
+        text-align: center;
+        margin-top: 18px;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .switch-link a {
+        color: var(--primary);
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      .switch-link a:hover {
+        text-decoration: underline;
+      }
+
+      @media (max-width: 640px) {
+        .card {
+          padding: 32px 24px 36px;
+        }
+
+        header h1 {
+          font-size: 1.9rem;
+        }
+
+        .actions-row {
+          flex-direction: column;
+          gap: 12px;
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="card">
+        <header>
+          <h1>เข้าสู่ระบบ</h1>
+          <p>มองเห็นทุกการเคลื่อนไหว ธุรกิจไม่สะดุด</p>
+          <span class="badge">
+            <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <circle cx="10" cy="10" r="10" fill="rgba(22,163,74,0.22)"></circle>
+              <path d="M14 7.5l-4.4 4.4L7 9.4" stroke="#16A34A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            ทดลองใช้ฟรี 6 เดือน
+          </span>
+        </header>
+        <hr class="divider" />
+        <form id="login-form" novalidate>
+          <div class="field" data-field="username">
+            <label for="username">บัญชีผู้ใช้ (Username)<span class="required">*</span></label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              required
+              aria-required="true"
+              aria-invalid="false"
+              aria-describedby="username-error"
+            />
+            <p class="error-message" id="username-error" aria-live="polite"></p>
+          </div>
+
+          <div class="field" data-field="password">
+            <label for="password">รหัสผ่าน (Password)<span class="required">*</span></label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              required
+              aria-required="true"
+              aria-invalid="false"
+              aria-describedby="password-error"
+            />
+            <p class="error-message" id="password-error" aria-live="polite"></p>
+          </div>
+
+          <div class="actions-row">
+            <label class="checkbox-label" for="showPassword">
+              <input type="checkbox" id="showPassword" />
+              <span>แสดงรหัสผ่าน</span>
+            </label>
+            <a href="#" class="forgot-link">ลืมรหัสผ่าน ?</a>
+          </div>
+
+          <button type="submit" class="primary-button" id="submitButton" disabled>เข้าสู่ระบบ</button>
+        </form>
+        <p class="switch-link">
+          ยังไม่มีบัญชี? <a href="/register.html">สร้างบัญชีใหม่</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script>
+      (function () {
+        const form = document.getElementById("login-form");
+        const usernameInput = document.getElementById("username");
+        const passwordInput = document.getElementById("password");
+        const showPasswordCheckbox = document.getElementById("showPassword");
+        const submitButton = document.getElementById("submitButton");
+        const toast = document.getElementById("toast");
+
+        const validators = {
+          username: (value) => (value.trim() ? "" : "กรุณากรอกบัญชีผู้ใช้"),
+          password: (value) => (value.trim() ? "" : "กรุณากรอกรหัสผ่าน")
+        };
+
+        function setError(fieldName, message) {
+          const fieldWrapper = form.querySelector(`.field[data-field="${fieldName}"]`);
+          if (!fieldWrapper) return;
+          const input = fieldWrapper.querySelector("input");
+          const errorEl = fieldWrapper.querySelector(".error-message");
+          if (message) {
+            fieldWrapper.classList.add("invalid");
+            input.setAttribute("aria-invalid", "true");
+            errorEl.textContent = message;
+          } else {
+            fieldWrapper.classList.remove("invalid");
+            input.setAttribute("aria-invalid", "false");
+            errorEl.textContent = "";
+          }
+        }
+
+        function validateField(fieldName) {
+          const fieldWrapper = form.querySelector(`.field[data-field="${fieldName}"]`);
+          if (!fieldWrapper) return true;
+          const input = fieldWrapper.querySelector("input");
+          const validator = validators[fieldName];
+          if (!validator) return true;
+          const message = validator(input.value);
+          setError(fieldName, message);
+          return !message;
+        }
+
+        function isFormValid() {
+          return Object.keys(validators).every((name) => {
+            const fieldWrapper = form.querySelector(`.field[data-field="${name}"]`);
+            if (!fieldWrapper) return true;
+            const input = fieldWrapper.querySelector("input");
+            const validator = validators[name];
+            if (!validator) return true;
+            return validator(input.value) === "";
+          });
+        }
+
+        function showToast(message) {
+          toast.textContent = message;
+          toast.classList.add("visible");
+          setTimeout(() => {
+            toast.classList.remove("visible");
+          }, 4000);
+        }
+
+        form.addEventListener("input", (event) => {
+          const fieldWrapper = event.target.closest(".field");
+          if (!fieldWrapper) return;
+          const fieldName = fieldWrapper.dataset.field;
+          if (validators[fieldName]) {
+            validateField(fieldName);
+          }
+          submitButton.disabled = !isFormValid();
+        });
+
+        form.addEventListener(
+          "blur",
+          (event) => {
+            const fieldWrapper = event.target.closest(".field");
+            if (!fieldWrapper) return;
+            const fieldName = fieldWrapper.dataset.field;
+            if (validators[fieldName]) {
+              validateField(fieldName);
+            }
+            submitButton.disabled = !isFormValid();
+          },
+          true
+        );
+
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+          const allValid = Object.keys(validators).every((name) => validateField(name));
+          submitButton.disabled = !allValid;
+          if (!allValid) {
+            const firstInvalid = form.querySelector(".field.invalid input");
+            if (firstInvalid) {
+              firstInvalid.focus();
+            }
+            return;
+          }
+
+          fetch("/api/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              username: usernameInput.value.trim(),
+              password: passwordInput.value.trim()
+            })
+          })
+            .then((response) => {
+              if (!response.ok) {
+                return response.json().then((data) => {
+                  throw new Error(data.error || "เข้าสู่ระบบไม่สำเร็จ");
+                });
+              }
+              return response.json();
+            })
+            .then((data) => {
+              showToast("เข้าสู่ระบบสำเร็จ!");
+              const userId = data.employee?.id;
+              if (userId) {
+                setTimeout(() => {
+                  window.location.href = `/user-info.html?userId=${encodeURIComponent(userId)}`;
+                }, 400);
+              }
+            })
+            .catch((error) => {
+              showToast(error.message || "เข้าสู่ระบบไม่สำเร็จ");
+            });
+        });
+
+        showPasswordCheckbox.addEventListener("change", () => {
+          const isChecked = showPasswordCheckbox.checked;
+          passwordInput.type = isChecked ? "text" : "password";
+        });
+      })();
+    </script>
+  </body>
+</html>

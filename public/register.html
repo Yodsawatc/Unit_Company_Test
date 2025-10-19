@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>สมัครสมาชิก</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Sans+Thai:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #1f53d6;
+        --primary-dark: #1a45b4;
+        --text: #1f2937;
+        --muted: #64748b;
+        --border: #d4dae6;
+        --background: #f5f7fb;
+        --error: #dc2626;
+        --success: #16a34a;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Inter", "Noto Sans Thai", sans-serif;
+        background: var(--background);
+        color: var(--text);
+      }
+
+      .page {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        padding: 48px 16px 64px;
+      }
+
+      .card {
+        width: 100%;
+        max-width: 960px;
+        background: #ffffff;
+        border-radius: 18px;
+        border: 1px solid #dbe1ef;
+        box-shadow: 0 16px 40px rgba(15, 23, 42, 0.1);
+        padding: 42px 48px 48px;
+      }
+
+      header {
+        margin-bottom: 30px;
+      }
+
+      header h1 {
+        margin: 0 0 20px;
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--text);
+      }
+
+     .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        background: rgba(22, 163, 74, 0.12);
+        color: var(--success);
+        border-radius: 999px;
+        font-weight: 600;
+        font-size: 0.95rem;
+      }
+
+      .badge svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      .divider {
+        margin: 28px 0 26px;
+        border: none;
+        border-top: 1px solid rgba(209, 213, 219, 0.9);
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      label {
+        font-weight: 600;
+        font-size: 0.95rem;
+      }
+
+      .required {
+        color: var(--error);
+        margin-left: 4px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        gap: 18px 24px;
+      }
+
+      .col-12 {
+        grid-column: span 12;
+      }
+
+      .col-8 {
+        grid-column: span 8;
+      }
+
+      .col-6 {
+        grid-column: span 6;
+      }
+
+      .col-4 {
+        grid-column: span 4;
+      }
+
+      .col-3 {
+        grid-column: span 3;
+      }
+
+      input,
+      select {
+        width: 100%;
+        padding: 12px 14px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: #ffffff;
+        font-size: 1rem;
+        color: var(--text);
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      input:focus,
+      select:focus {
+        outline: none;
+        border-color: #8fa9ff;
+        box-shadow: 0 0 0 3px rgba(31, 83, 214, 0.16);
+      }
+
+      select {
+        appearance: none;
+        background-image: linear-gradient(45deg, transparent 50%, #64748b 50%), linear-gradient(135deg, #64748b 50%, transparent 50%);
+        background-position: calc(100% - 20px) calc(1.05em), calc(100% - 15px) calc(1.05em);
+        background-size: 8px 8px, 8px 8px;
+        background-repeat: no-repeat;
+      }
+
+      .password-group {
+        position: relative;
+      }
+
+      .password-toggle {
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: var(--muted);
+        border: none;
+        background: transparent;
+        padding: 4px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .hint-list {
+        margin: 0;
+        padding-left: 24px;
+        list-style: disc;
+        color: var(--muted);
+        font-size: 0.92rem;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .hint-valid {
+        color: var(--success);
+      }
+
+      .primary-button {
+        width: 100%;
+        padding: 15px;
+        border: none;
+        border-radius: 12px;
+        background: var(--primary);
+        color: #ffffff;
+        font-size: 1.05rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s ease, transform 0.2s ease;
+      }
+
+      .primary-button:hover {
+        background: var(--primary-dark);
+        transform: translateY(-1px);
+      }
+
+      .toast {
+        position: fixed;
+        top: 24px;
+        right: 24px;
+        background: #0f172a;
+        color: #ffffff;
+        padding: 16px 24px;
+        border-radius: 12px;
+        font-weight: 600;
+        box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-12px);
+        transition: opacity 0.25s ease, transform 0.25s ease;
+      }
+
+      .toast.visible {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+
+      .switch-link {
+        text-align: center;
+        margin-top: 16px;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .switch-link a {
+        color: var(--primary);
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      .switch-link a:hover {
+        text-decoration: underline;
+      }
+
+      @media (max-width: 900px) {
+        .grid {
+          grid-template-columns: repeat(6, minmax(0, 1fr));
+        }
+
+        .col-8 {
+          grid-column: span 6;
+        }
+
+        .col-6 {
+          grid-column: span 6;
+        }
+
+        .col-4 {
+          grid-column: span 3;
+        }
+
+        .col-3 {
+          grid-column: span 3;
+        }
+
+        .col-12 {
+          grid-column: span 6;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .card {
+          padding: 28px 20px 32px;
+        }
+
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .col-12,
+        .col-8,
+        .col-6,
+        .col-4,
+        .col-3 {
+          grid-column: span 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="card">
+        <header>
+          <h1>สมัครสมาชิก</h1>
+          <span class="badge">
+            <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <circle cx="10" cy="10" r="10" fill="rgba(22,163,74,0.2)"></circle>
+              <path d="M14.3 7.5l-4.4 4.4L7.7 9.7" stroke="#16A34A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            ทดลองใช้ฟรี 6 เดือน
+          </span>
+        </header>
+        <hr class="divider" />
+
+        <form id="register-form" novalidate>
+          <div class="grid">
+            <div class="field col-12">
+              <label for="username">บัญชีผู้ใช้ (Username)<span class="required">*</span></label>
+              <input type="text" id="username" name="username" required aria-required="true" />
+            </div>
+
+            <div class="field col-12">
+              <label for="password">รหัสผ่าน (Password)<span class="required">*</span></label>
+              <div class="password-group">
+                <input type="password" id="password" name="password" required aria-required="true" />
+                <button type="button" class="password-toggle" aria-label="แสดงรหัสผ่าน" id="togglePassword">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
+              <ul class="hint-list" id="password-hints">
+                <li data-rule="uppercase">มีตัวอักษรพิมพ์ใหญ่</li>
+                <li data-rule="lowercase">มีตัวอักษรพิมพ์เล็ก</li>
+                <li data-rule="number">มีตัวเลข</li>
+                <li data-rule="length">มีจำนวนตัวอักษรและตัวเลขรวมกัน 8-20 ตัวอักษร</li>
+              </ul>
+            </div>
+
+            <div class="field col-4">
+              <label for="type">ประเภท<span class="required">*</span></label>
+              <select id="type" name="type" required>
+                <option value="">--- เลือก ---</option>
+                <option value="company">นิติบุคคล</option>
+                <option value="individual">บุคคลธรรมดา</option>
+              </select>
+            </div>
+
+            <div class="field col-8">
+              <label for="fullName">ชื่อ-สกุล/ชื่อบริษัท<span class="required">*</span></label>
+              <input type="text" id="fullName" name="fullName" required />
+            </div>
+
+            <div class="field col-3">
+              <label for="addressNumber">ที่อยู่เลขที่<span class="required">*</span></label>
+              <input type="text" id="addressNumber" name="addressNumber" required />
+            </div>
+
+            <div class="field col-3">
+              <label for="moo">หมู่</label>
+              <input type="text" id="moo" name="moo" />
+            </div>
+
+            <div class="field col-6">
+              <label for="village">หมู่บ้าน/อาคาร</label>
+              <input type="text" id="village" name="village" />
+            </div>
+
+            <div class="field col-6">
+              <label for="soi">ซอย</label>
+              <input type="text" id="soi" name="soi" />
+            </div>
+
+            <div class="field col-4">
+              <label for="road">ถนน</label>
+              <input type="text" id="road" name="road" />
+            </div>
+
+            <div class="field col-4">
+              <label for="subDistrict">ตำบล/แขวง<span class="required">*</span></label>
+              <input type="text" id="subDistrict" name="subDistrict" required />
+            </div>
+
+            <div class="field col-4">
+              <label for="district">อำเภอ/เขต<span class="required">*</span></label>
+              <input type="text" id="district" name="district" required />
+            </div>
+
+            <div class="field col-6">
+              <label for="province">จังหวัด<span class="required">*</span></label>
+              <input type="text" id="province" name="province" required />
+            </div>
+
+            <div class="field col-6">
+              <label for="postalCode">รหัสไปรษณีย์<span class="required">*</span></label>
+              <input type="text" id="postalCode" name="postalCode" required />
+            </div>
+
+            <div class="field col-4">
+              <label for="contactTitle">คำนำหน้าผู้ติดต่อ<span class="required">*</span></label>
+              <select id="contactTitle" name="contactTitle" required>
+                <option value="">--- เลือก ---</option>
+                <option value="mr">นาย</option>
+                <option value="mrs">นาง</option>
+                <option value="ms">นางสาว</option>
+                <option value="other">อื่นๆ</option>
+              </select>
+            </div>
+
+            <div class="field col-4">
+              <label for="contactFirstName">ชื่อผู้ติดต่อ<span class="required">*</span></label>
+              <input type="text" id="contactFirstName" name="contactFirstName" required />
+            </div>
+
+            <div class="field col-4">
+              <label for="contactLastName">สกุลผู้ติดต่อ<span class="required">*</span></label>
+              <input type="text" id="contactLastName" name="contactLastName" required />
+            </div>
+
+            <div class="field col-4">
+              <label for="phone">เบอร์โทรศัพท์<span class="required">*</span></label>
+              <input type="text" id="phone" name="phone" required />
+            </div>
+
+            <div class="field col-4">
+              <label for="email">อีเมล<span class="required">*</span></label>
+              <input type="email" id="email" name="email" required />
+            </div>
+
+            <div class="field col-4">
+              <label for="refCode">โค้ดแนะนำ (REF)</label>
+              <input type="text" id="refCode" name="refCode" />
+            </div>
+          </div>
+
+          <button type="submit" class="primary-button" id="submitButton">สมัครสมาชิก</button>
+        </form>
+        <p class="switch-link">
+          มีบัญชีอยู่แล้ว? <a href="/login.html">เข้าสู่ระบบ</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script>
+      (() => {
+        const form = document.getElementById("register-form");
+        const submitButton = document.getElementById("submitButton");
+        const togglePassword = document.getElementById("togglePassword");
+        const passwordInput = document.getElementById("password");
+        const toast = document.getElementById("toast");
+        const hints = document.getElementById("password-hints").querySelectorAll("li");
+
+        const passwordRules = {
+          uppercase: (value) => /[A-Z]/.test(value),
+          lowercase: (value) => /[a-z]/.test(value),
+          number: (value) => /\\d/.test(value),
+          length: (value) => value.length >= 8 && value.length <= 20
+        };
+
+        const validators = {
+          username: (value) => (value.trim() ? "" : "กรุณากรอกชื่อผู้ใช้"),
+          password: (value) => {
+            if (!value.trim()) return "กรุณากรอกรหัสผ่าน";
+            const missing = Object.entries(passwordRules).filter(([, rule]) => !rule(value));
+            return missing.length ? "รหัสผ่านไม่เป็นไปตามเงื่อนไข" : "";
+          },
+          type: (value) => (value ? "" : "กรุณาเลือกประเภท"),
+          fullName: (value) => (value.trim() ? "" : "กรุณากรอกชื่อ-สกุล/ชื่อบริษัท"),
+          addressNumber: (value) => (value.trim() ? "" : "กรุณากรอกที่อยู่เลขที่"),
+          subDistrict: (value) => (value.trim() ? "" : "กรุณากรอกตำบล/แขวง"),
+          district: (value) => (value.trim() ? "" : "กรุณากรอกอำเภอ/เขต"),
+          province: (value) => (value.trim() ? "" : "กรุณากรอกจังหวัด"),
+          postalCode: (value) =>
+            /^\\d{5}$/.test(value.trim()) ? "" : "กรุณากรอกรหัสไปรษณีย์ให้ถูกต้อง",
+          contactTitle: (value) => (value ? "" : "กรุณาเลือกคำนำหน้าผู้ติดต่อ"),
+          contactFirstName: (value) => (value.trim() ? "" : "กรุณากรอกชื่อผู้ติดต่อ"),
+          contactLastName: (value) => (value.trim() ? "" : "กรุณากรอกสกุลผู้ติดต่อ"),
+          phone: (value) =>
+            /^[\\d\\s-]+$/.test(value.trim()) && value.replace(/[^\\d]/g, "").length >= 9
+              ? ""
+              : "กรุณากรอกเบอร์โทรศัพท์ให้ถูกต้อง",
+          email: (value) =>
+            /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(value.trim()) ? "" : "กรุณากรอกอีเมลให้ถูกต้อง"
+        };
+
+        function showToast(message) {
+          toast.textContent = message;
+          toast.classList.add("visible");
+          setTimeout(() => toast.classList.remove("visible"), 4000);
+        }
+
+        function setFieldError(fieldName, message) {
+          const field = form.querySelector(`[name="${fieldName}"]`)?.closest(".field");
+          if (!field) return;
+          field.dataset.error = message || "";
+          if (message) {
+            field.classList.add("invalid");
+          } else {
+            field.classList.remove("invalid");
+          }
+        }
+
+        function validateField(fieldName) {
+          const input = form.elements[fieldName];
+          if (!input) return true;
+          const validator = validators[fieldName];
+          if (!validator) return true;
+          const message = validator(input.value);
+          setFieldError(fieldName, message);
+          return !message;
+        }
+
+        function validateAll() {
+          return Object.keys(validators).every((name) => validateField(name));
+        }
+
+        function allFieldsValid() {
+          return Object.keys(validators).every((name) => {
+            const input = form.elements[name];
+            if (!input) return true;
+            const validator = validators[name];
+            if (!validator) return true;
+            return validator(input.value) === "";
+          });
+        }
+
+        function updatePasswordHints(value) {
+          hints.forEach((hint) => {
+            const ruleKey = hint.dataset.rule;
+            if (!ruleKey) return;
+            const valid = passwordRules[ruleKey](value);
+            hint.classList.toggle("hint-valid", valid);
+          });
+        }
+
+        form.addEventListener("input", (event) => {
+          const target = event.target;
+          if (target.name === "password") {
+            updatePasswordHints(target.value);
+          }
+
+          if (validators[target.name]) {
+            validateField(target.name);
+          }
+
+          submitButton.disabled = !allFieldsValid();
+        });
+
+        form.addEventListener(
+          "blur",
+          (event) => {
+            const target = event.target;
+            if (validators[target.name]) {
+              validateField(target.name);
+              submitButton.disabled = !allFieldsValid();
+            }
+          },
+          true
+        );
+
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          if (!validateAll()) {
+            submitButton.disabled = true;
+            const firstInvalid = form.querySelector(".field.invalid input, .field.invalid select");
+            firstInvalid?.focus();
+            return;
+          }
+
+          const payload = {};
+          new FormData(form).forEach((value, key) => {
+            payload[key] = typeof value === "string" ? value.trim() : value;
+          });
+
+          try {
+            const response = await fetch("/api/auth/register", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+              const data = await response.json().catch(() => ({}));
+              throw new Error(data.error || "ไม่สามารถสมัครสมาชิกได้");
+            }
+
+            await response.json();
+            showToast("สมัครสมาชิกสำเร็จ!");
+            form.reset();
+            updatePasswordHints("");
+            submitButton.disabled = true;
+          } catch (error) {
+            showToast(error.message || "เกิดข้อผิดพลาดในการสมัครสมาชิก");
+          }
+        });
+
+        togglePassword.addEventListener("click", () => {
+          const isHidden = passwordInput.type === "password";
+          passwordInput.type = isHidden ? "text" : "password";
+          togglePassword.setAttribute("aria-label", isHidden ? "ซ่อนรหัสผ่าน" : "แสดงรหัสผ่าน");
+          togglePassword.innerHTML = isHidden
+            ? '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.43 10.43 0 0 1 12 20c-7 0-11-8-11-8a20.29 20.29 0 0 1 5.08-6.35"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a20.3 20.3 0 0 1-2.27 3.36"/><path d="M14.12 9.88a3 3 0 0 1 0 4.24"/><path d="M9.88 14.12a3 3 0 0 1 0-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>'
+            : '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
+        });
+
+        submitButton.disabled = true;
+        updatePasswordHints("");
+      })();
+    </script>
+  </body>
+</html>

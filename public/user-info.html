@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ข้อมูลบริษัท</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Sans+Thai:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #1f5eff;
+        --text: #202733;
+        --border: #d1d9e6;
+        --background: #f5f7fb;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Inter", "Noto Sans Thai", sans-serif;
+        background: var(--background);
+        color: var(--text);
+      }
+
+      .page {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        padding: 48px 16px 64px;
+      }
+
+      .card {
+        width: 100%;
+        max-width: 960px;
+        background: #ffffff;
+        border-radius: 16px;
+        border: 1px solid var(--border);
+        box-shadow: 0 14px 36px rgba(15, 23, 42, 0.08);
+        padding: 38px 44px 42px;
+      }
+
+      header {
+        margin-bottom: 26px;
+      }
+
+      header h1 {
+        margin: 0 0 18px;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--primary);
+      }
+
+      .divider {
+        border: none;
+        border-top: 1px solid rgba(209, 213, 219, 0.9);
+        margin: 0 0 28px;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 18px 24px;
+      }
+
+      .span-2 {
+        grid-column: span 2;
+      }
+
+      .span-4 {
+        grid-column: span 4;
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      label {
+        font-weight: 600;
+        font-size: 0.94rem;
+      }
+
+      .required {
+        color: #dc2626;
+        margin-left: 4px;
+      }
+
+      input {
+        width: 100%;
+        padding: 11px 14px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: #ffffff;
+        font-size: 0.98rem;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      input:focus {
+        outline: none;
+        border-color: #8ca9ff;
+        box-shadow: 0 0 0 3px rgba(31, 94, 255, 0.16);
+      }
+
+      .primary-button {
+        border: none;
+        border-radius: 10px;
+        padding: 14px;
+        background: var(--primary);
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 1.02rem;
+        cursor: pointer;
+        transition: background 0.2s ease, transform 0.2s ease;
+      }
+
+      .primary-button:hover {
+        background: #1d4fe5;
+        transform: translateY(-1px);
+      }
+
+      .toast {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #1f2933;
+        color: #ffffff;
+        padding: 14px 20px;
+        border-radius: 10px;
+        font-weight: 600;
+        box-shadow: 0 18px 35px rgba(15, 23, 42, 0.2);
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-12px);
+        transition: opacity 0.25s ease, transform 0.25s ease;
+      }
+
+      .toast.visible {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateY(0);
+      }
+
+      @media (max-width: 880px) {
+        .grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .span-4 {
+          grid-column: span 2;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .card {
+          padding: 28px 20px 32px;
+        }
+
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .span-2,
+        .span-4 {
+          grid-column: span 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="card">
+        <header>
+          <h1>ข้อมูลบริษัท</h1>
+        </header>
+        <hr class="divider" />
+        <form id="company-form">
+          <div class="grid">
+            <div class="field span-2">
+              <label for="companyName">ชื่อ-สกุล/ชื่อบริษัท<span class="required">*</span></label>
+              <input type="text" id="companyName" name="companyName" />
+            </div>
+            <div class="field span-2">
+              <label for="taxId">เลขบัตรประชาชน/เลขที่ผู้เสียภาษี<span class="required">*</span></label>
+              <input type="text" id="taxId" name="taxId" />
+            </div>
+
+            <div class="field">
+              <label for="addressNumber">ที่อยู่เลขที่<span class="required">*</span></label>
+              <input type="text" id="addressNumber" name="addressNumber" />
+            </div>
+            <div class="field">
+              <label for="moo">หมู่</label>
+              <input type="text" id="moo" name="moo" />
+            </div>
+            <div class="field span-2">
+              <label for="village">หมู่บ้าน/อาคาร</label>
+              <input type="text" id="village" name="village" />
+            </div>
+
+            <div class="field span-2">
+              <label for="soi">ซอย</label>
+              <input type="text" id="soi" name="soi" />
+            </div>
+            <div class="field span-2">
+              <label for="road">ถนน</label>
+              <input type="text" id="road" name="road" />
+            </div>
+
+            <div class="field span-2">
+              <label for="subDistrict">ตำบล/แขวง<span class="required">*</span></label>
+              <input type="text" id="subDistrict" name="subDistrict" />
+            </div>
+            <div class="field span-2">
+              <label for="district">อำเภอ/เขต<span class="required">*</span></label>
+              <input type="text" id="district" name="district" />
+            </div>
+
+            <div class="field span-2">
+              <label for="province">จังหวัด<span class="required">*</span></label>
+              <input type="text" id="province" name="province" />
+            </div>
+            <div class="field span-2">
+              <label for="postalCode">รหัสไปรษณีย์<span class="required">*</span></label>
+              <input type="text" id="postalCode" name="postalCode" />
+            </div>
+          </div>
+
+          <button type="submit" class="primary-button" id="saveButton">บันทึกข้อมูล</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script>
+      (() => {
+        const form = document.getElementById("company-form");
+        const saveButton = document.getElementById("saveButton");
+        const toast = document.getElementById("toast");
+        const userId = new URLSearchParams(window.location.search).get("userId");
+
+        function showToast(message) {
+          toast.textContent = message;
+          toast.classList.add("visible");
+          setTimeout(() => toast.classList.remove("visible"), 4000);
+        }
+
+        function populateForm(data) {
+          if (!data) return;
+          Object.entries(data).forEach(([key, value]) => {
+            const input = form.querySelector(`[name="${key}"]`);
+            if (input) input.value = value ?? "";
+          });
+        }
+
+        async function loadUserInfo() {
+          if (!userId) return;
+          try {
+            const response = await fetch(`/api/users/${encodeURIComponent(userId)}`);
+            if (!response.ok) throw new Error("ไม่สามารถโหลดข้อมูลได้");
+            const data = await response.json();
+            populateForm(data);
+          } catch (error) {
+            showToast(error.message || "ไม่สามารถโหลดข้อมูลได้");
+          }
+        }
+
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+
+          const payload = {};
+          new FormData(form).forEach((value, key) => {
+            payload[key] = typeof value === "string" ? value.trim() : value;
+          });
+
+          if (!userId) {
+            showToast("ไม่มีรหัสผู้ใช้ กรุณาเข้าสู่ระบบก่อนบันทึกข้อมูล");
+            return;
+          }
+
+          try {
+            const response = await fetch(`/api/users/${encodeURIComponent(userId)}`, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload)
+            });
+            if (!response.ok) throw new Error("ไม่สามารถบันทึกข้อมูลได้");
+            await response.json().catch(() => ({}));
+            showToast("บันทึกข้อมูลสำเร็จ!");
+          } catch (error) {
+            showToast(error.message || "เกิดข้อผิดพลาดในการบันทึกข้อมูล");
+          }
+        });
+
+        saveButton.disabled = false;
+        loadUserInfo();
+      })();
+    </script>
+  </body>
+</html>
